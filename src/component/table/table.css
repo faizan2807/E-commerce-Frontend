@@ -1,0 +1,130 @@
+/* Modern Adaptive Table Styling (Light Mode: White / Slate, Dark Mode: Navy Blue) */
+
+:root {
+  --table-text-color: #2D3748;
+  --table-th-color: #718096;
+  --table-border-color: rgba(0, 0, 0, 0.06);
+  --table-hover-bg: rgba(0, 0, 0, 0.025);
+  --table-scrollbar-track: rgba(0, 0, 0, 0.04);
+  --table-scrollbar-thumb: rgba(0, 0, 0, 0.15);
+}
+
+.chakra-ui-dark,
+[data-theme="dark"],
+body.chakra-ui-dark {
+  --table-text-color: #E2E8F0;
+  --table-th-color: #8FA0BD;
+  --table-border-color: rgba(255, 255, 255, 0.06);
+  --table-hover-bg: rgba(255, 255, 255, 0.035);
+  --table-scrollbar-track: rgba(255, 255, 255, 0.02);
+  --table-scrollbar-thumb: rgba(255, 255, 255, 0.15);
+}
+
+.modern-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 16px;
+  background-color: transparent;
+}
+
+/* Custom sleek scrollbar */
+.modern-table-container::-webkit-scrollbar {
+  height: 6px;
+}
+.modern-table-container::-webkit-scrollbar-track {
+  background: var(--table-scrollbar-track);
+  border-radius: 8px;
+}
+.modern-table-container::-webkit-scrollbar-thumb {
+  background: var(--table-scrollbar-thumb);
+  border-radius: 8px;
+}
+.modern-table-container::-webkit-scrollbar-thumb:hover {
+  filter: brightness(1.2);
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--table-text-color);
+}
+
+.modern-table thead th {
+  padding: 16px 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--table-th-color);
+  border-bottom: 1px solid var(--table-border-color);
+  white-space: nowrap;
+  text-align: left;
+}
+
+.modern-table thead th.text-center {
+  text-align: center;
+}
+
+.modern-table tbody tr {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid var(--table-border-color);
+}
+
+.modern-table tbody tr:hover {
+  background-color: var(--table-hover-bg);
+}
+
+.modern-table tbody td {
+  padding: 18px 20px;
+  font-size: 14px;
+  color: var(--table-text-color);
+  border-bottom: 1px solid var(--table-border-color);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.modern-table tbody td.text-center {
+  text-align: center;
+}
+
+/* Action icons */
+.table-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.table-action-btn.edit {
+  color: #3b82f6;
+}
+.table-action-btn.edit:hover {
+  color: #2563eb;
+  background: rgba(59, 130, 246, 0.12);
+  transform: scale(1.1);
+}
+
+.table-action-btn.delete {
+  color: #ef4444;
+}
+.table-action-btn.delete:hover {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.12);
+  transform: scale(1.1);
+}
+
+.table-action-btn.view {
+  color: #06b6d4;
+}
+.table-action-btn.view:hover {
+  color: #0891b2;
+  background: rgba(6, 182, 212, 0.12);
+  transform: scale(1.1);
+}
