@@ -66,6 +66,35 @@ export default function FilterNavbar({
     const { isOpen: isMobileOpen, onToggle: onMobileToggle } = useDisclosure({ defaultIsOpen: true });
     const [brandSearch, setBrandSearch] = useState("");
 
+    // Theme-adaptive colors
+    const containerBg = useColorModeValue("white", "gray.800");
+    const containerBorder = useColorModeValue("gray.200", "gray.700");
+    const dividerColor = useColorModeValue("gray.100", "gray.700");
+    const headerTitleColor = useColorModeValue("gray.800", "white");
+    const sectionTitleColor = useColorModeValue("gray.600", "gray.400");
+    const subTextColor = useColorModeValue("gray.500", "gray.400");
+    const countTextColor = useColorModeValue("gray.400", "gray.500");
+    const primaryTextColor = useColorModeValue("gray.800", "gray.100");
+    const brandCheckedColor = useColorModeValue("gray.900", "white");
+    const brandUncheckedColor = useColorModeValue("gray.600", "gray.300");
+    const headerBg = useColorModeValue("gray.50", "whiteAlpha.50");
+    const pillBg = useColorModeValue("gray.50", "gray.700");
+    const pillBorder = useColorModeValue("gray.200", "gray.600");
+    const sliderTrackBg = useColorModeValue("gray.200", "gray.700");
+    const sliderThumbBg = useColorModeValue("white", "gray.800");
+    const sortSelectedBg = useColorModeValue("red.50", "rgba(229, 62, 62, 0.18)");
+    const sortHoverBg = useColorModeValue("gray.50", "whiteAlpha.100");
+    const sortTextColor = useColorModeValue("gray.700", "gray.300");
+    const sortSelectedTextColor = useColorModeValue("red.600", "red.300");
+    const priceRangeTextColor = useColorModeValue("red.600", "red.400");
+    const clearAllColor = useColorModeValue("blue.600", "blue.300");
+    const clearAllHoverColor = useColorModeValue("blue.700", "blue.200");
+    const scrollbarThumbColor = useColorModeValue("gray.300", "gray.600");
+    const containerShadow = useColorModeValue(
+        "0 1px 4px 0 rgba(0, 0, 0, 0.08)",
+        "0 4px 20px 0 rgba(0, 0, 0, 0.35)"
+    );
+
     // Parse current min and max from filters.priceRange
     const currentSliderValues = useMemo<[number, number]>(() => {
         if (!filters.priceRange || filters.priceRange === "all") {
@@ -116,29 +145,30 @@ export default function FilterNavbar({
             float={{ base: "none", lg: "left" }}
             mr={{ base: 0, lg: 5 }}
             mb={{ base: 4, lg: 6 }}
-            bg="white"
+            bg={containerBg}
             borderRadius="md"
             border="1px solid"
-            borderColor="gray.200"
-            boxShadow="0 1px 4px 0 rgba(0, 0, 0, 0.08)"
+            borderColor={containerBorder}
+            boxShadow={containerShadow}
             fontSize="xs"
             position={{ lg: "sticky" }}
             top={{ lg: "85px" }}
             zIndex={9}
             userSelect="none"
+            transition="background-color 0.2s, border-color 0.2s"
         >
-            {/* Top Bar: " */}
+            {/* Top Bar */}
             <Flex
                 align="center"
                 justify="space-between"
                 px={3.5}
                 py={3}
                 borderBottom="1px solid"
-                borderColor="gray.100"
+                borderColor={dividerColor}
             >
                 <HStack spacing={2}>
                     <SlidersHorizontal size={14} color="#2874f0" />
-                    <Text fontWeight="bold" fontSize="sm" color="gray.800" letterSpacing="0.2px">
+                    <Text fontWeight="bold" fontSize="sm" color={headerTitleColor} letterSpacing="0.2px">
                         Filters
                     </Text>
                     <Badge colorScheme="blue" fontSize="2xs" borderRadius="full" px={1.5}>
@@ -152,11 +182,11 @@ export default function FilterNavbar({
                             as="button"
                             fontSize="2xs"
                             fontWeight="bold"
-                            color="blue.600"
+                            color={clearAllColor}
                             textTransform="uppercase"
                             letterSpacing="0.5px"
                             cursor="pointer"
-                            _hover={{ textDecoration: "underline", color: "blue.700" }}
+                            _hover={{ textDecoration: "underline", color: clearAllHoverColor }}
                             onClick={onReset}
                         >
                             Clear All
@@ -177,11 +207,11 @@ export default function FilterNavbar({
 
             {/* Category Breadcrumb/Header */}
             {categoryTitle && (
-                <Box px={3.5} py={2} bg="gray.50" borderBottom="1px solid" borderColor="gray.100">
-                    <Text fontSize="2xs" color="gray.500" textTransform="uppercase" fontWeight="bold">
+                <Box px={3.5} py={2} bg={headerBg} borderBottom="1px solid" borderColor={dividerColor}>
+                    <Text fontSize="2xs" color={subTextColor} textTransform="uppercase" fontWeight="bold">
                         Category
                     </Text>
-                    <Text fontSize="xs" fontWeight="semibold" color="gray.800" noOfLines={1}>
+                    <Text fontSize="xs" fontWeight="semibold" color={headerTitleColor} noOfLines={1}>
                         {categoryTitle}
                     </Text>
                 </Box>
@@ -190,12 +220,12 @@ export default function FilterNavbar({
             <Collapse in={isMobileOpen} animateOpacity>
                 <VStack spacing={0} align="stretch">
                     {/* SECTION 1: PRICE RANGE SLIDER (Flipkart style) */}
-                    <Box px={3.5} py={3} borderBottom="1px solid" borderColor="gray.100">
+                    <Box px={3.5} py={3} borderBottom="1px solid" borderColor={dividerColor}>
                         <Flex justify="space-between" align="center" mb={1.5}>
-                            <Text fontSize="2xs" fontWeight="bold" color="gray.600" textTransform="uppercase" letterSpacing="0.5px">
+                            <Text fontSize="2xs" fontWeight="bold" color={sectionTitleColor} textTransform="uppercase" letterSpacing="0.5px">
                                 Price
                             </Text>
-                            <Text fontSize="2xs" fontWeight="bold" color="red.600">
+                            <Text fontSize="2xs" fontWeight="bold" color={priceRangeTextColor}>
                                 ₹{sliderValue[0].toLocaleString("en-IN")} - ₹{sliderValue[1] >= MAX_SLIDER_PRICE ? "80K+" : sliderValue[1].toLocaleString("en-IN")}
                             </Text>
                         </Flex>
@@ -212,13 +242,13 @@ export default function FilterNavbar({
                                 onChange={(val) => setSliderValue([val[0], val[1]])}
                                 onChangeEnd={handleSliderChangeEnd}
                             >
-                                <RangeSliderTrack bg="gray.200" h="4px" borderRadius="full">
+                                <RangeSliderTrack bg={sliderTrackBg} h="4px" borderRadius="full">
                                     <RangeSliderFilledTrack bg="red.500" />
                                 </RangeSliderTrack>
                                 <RangeSliderThumb
                                     index={0}
                                     boxSize={3.5}
-                                    bg="white"
+                                    bg={sliderThumbBg}
                                     border="2px solid"
                                     borderColor="red.500"
                                     boxShadow="sm"
@@ -227,7 +257,7 @@ export default function FilterNavbar({
                                 <RangeSliderThumb
                                     index={1}
                                     boxSize={3.5}
-                                    bg="white"
+                                    bg={sliderThumbBg}
                                     border="2px solid"
                                     borderColor="red.500"
                                     boxShadow="sm"
@@ -243,29 +273,29 @@ export default function FilterNavbar({
                                 px={2}
                                 py={1}
                                 border="1px solid"
-                                borderColor="gray.200"
+                                borderColor={pillBorder}
                                 borderRadius="sm"
-                                bg="gray.50"
+                                bg={pillBg}
                                 textAlign="center"
                             >
-                                <Text fontSize="3xs" color="gray.400" lineHeight="1">Min</Text>
-                                <Text fontSize="2xs" fontWeight="bold" color="gray.800">
+                                <Text fontSize="3xs" color={countTextColor} lineHeight="1">Min</Text>
+                                <Text fontSize="2xs" fontWeight="bold" color={primaryTextColor}>
                                     ₹{sliderValue[0].toLocaleString("en-IN")}
                                 </Text>
                             </Box>
-                            <Text fontSize="2xs" color="gray.400">to</Text>
+                            <Text fontSize="2xs" color={countTextColor}>to</Text>
                             <Box
                                 flex="1"
                                 px={2}
                                 py={1}
                                 border="1px solid"
-                                borderColor="gray.200"
+                                borderColor={pillBorder}
                                 borderRadius="sm"
-                                bg="gray.50"
+                                bg={pillBg}
                                 textAlign="center"
                             >
-                                <Text fontSize="3xs" color="gray.400" lineHeight="1">Max</Text>
-                                <Text fontSize="2xs" fontWeight="bold" color="gray.800">
+                                <Text fontSize="3xs" color={countTextColor} lineHeight="1">Max</Text>
+                                <Text fontSize="2xs" fontWeight="bold" color={primaryTextColor}>
                                     ₹{sliderValue[1] >= MAX_SLIDER_PRICE ? "80,000+" : sliderValue[1].toLocaleString("en-IN")}
                                 </Text>
                             </Box>
@@ -295,34 +325,15 @@ export default function FilterNavbar({
                     </Box>
 
                     {/* SECTION 2: BRAND FILTER (Flipkart-style checkboxes) */}
-                    <Box px={3.5} py={3} borderBottom="1px solid" borderColor="gray.100">
+                    <Box px={3.5} py={3} borderBottom="1px solid" borderColor={dividerColor}>
                         <Flex justify="space-between" align="center" mb={1.5}>
-                            <Text fontSize="2xs" fontWeight="bold" color="gray.600" textTransform="uppercase" letterSpacing="0.5px">
+                            <Text fontSize="2xs" fontWeight="bold" color={sectionTitleColor} textTransform="uppercase" letterSpacing="0.5px">
                                 Brand
                             </Text>
-                            <Text fontSize="3xs" color="gray.400">
+                            <Text fontSize="3xs" color={countTextColor}>
                                 {availableBrands.length} Brands
                             </Text>
                         </Flex>
-
-                        {/* Search Brand (Compact) */}
-                        {/* {availableBrands.length > 3 && (
-                            <InputGroup size="xs" mb={2}>
-                                <InputLeftElement pointerEvents="none" h="24px">
-                                    <Search size={11} color="#a0aec0" />
-                                </InputLeftElement>
-                                <Input
-                                    placeholder="Search Brand"
-                                    h="24px"
-                                    fontSize="2xs"
-                                    borderRadius="sm"
-                                    value={brandSearch}
-                                    onChange={(e) => setBrandSearch(e.target.value)}
-                                    borderColor="gray.200"
-                                    _focus={{ borderColor: "red.400", boxShadow: "none" }}
-                                />
-                            </InputGroup>
-                        )} */}
 
                         {/* Brand Checkbox List */}
                         <VStack
@@ -333,7 +344,7 @@ export default function FilterNavbar({
                             pr={1}
                             sx={{
                                 "&::-webkit-scrollbar": { width: "3px" },
-                                "&::-webkit-scrollbar-thumb": { bg: "gray.300", borderRadius: "full" },
+                                "&::-webkit-scrollbar-thumb": { bg: scrollbarThumbColor, borderRadius: "full" },
                             }}
                         >
                             {/* All Brands Checkbox */}
@@ -343,7 +354,11 @@ export default function FilterNavbar({
                                 isChecked={!filters.brand || filters.brand === "all"}
                                 onChange={() => onFilterChange({ ...filters, brand: "all" })}
                             >
-                                <Text fontSize="xs" color={!filters.brand || filters.brand === "all" ? "gray.900" : "gray.600"} fontWeight={!filters.brand || filters.brand === "all" ? "bold" : "normal"}>
+                                <Text
+                                    fontSize="xs"
+                                    color={!filters.brand || filters.brand === "all" ? brandCheckedColor : brandUncheckedColor}
+                                    fontWeight={!filters.brand || filters.brand === "all" ? "bold" : "normal"}
+                                >
                                     All Brands
                                 </Text>
                             </Checkbox>
@@ -365,7 +380,7 @@ export default function FilterNavbar({
                                     >
                                         <Text
                                             fontSize="xs"
-                                            color={isChecked ? "gray.900" : "gray.600"}
+                                            color={isChecked ? brandCheckedColor : brandUncheckedColor}
                                             fontWeight={isChecked ? "bold" : "normal"}
                                             noOfLines={1}
                                         >
@@ -379,7 +394,7 @@ export default function FilterNavbar({
 
                     {/* SECTION 3: SORT (Flipkart style) */}
                     <Box px={3.5} py={3}>
-                        <Text fontSize="2xs" fontWeight="bold" color="gray.600" textTransform="uppercase" letterSpacing="0.5px" mb={1.5}>
+                        <Text fontSize="2xs" fontWeight="bold" color={sectionTitleColor} textTransform="uppercase" letterSpacing="0.5px" mb={1.5}>
                             Sort By
                         </Text>
                         <VStack align="stretch" spacing={1}>
@@ -397,16 +412,16 @@ export default function FilterNavbar({
                                         py={1}
                                         borderRadius="sm"
                                         cursor="pointer"
-                                        bg={isSelected ? "red.50" : "transparent"}
-                                        color={isSelected ? "red.600" : "gray.700"}
+                                        bg={isSelected ? sortSelectedBg : "transparent"}
+                                        color={isSelected ? sortSelectedTextColor : sortTextColor}
                                         fontWeight={isSelected ? "bold" : "normal"}
                                         fontSize="2xs"
-                                        _hover={{ bg: "gray.50" }}
+                                        _hover={{ bg: isSelected ? sortSelectedBg : sortHoverBg }}
                                         onClick={() => onFilterChange({ ...filters, sortBy: sortOption.value })}
                                     >
                                         <Text>{sortOption.label}</Text>
                                         {isSelected && (
-                                            <Box w="5px" h="5px" borderRadius="full" bg="red.500" />
+                                            <Box w="5px" h="5px" borderRadius="full" bg={sortSelectedTextColor} />
                                         )}
                                     </Flex>
                                 );

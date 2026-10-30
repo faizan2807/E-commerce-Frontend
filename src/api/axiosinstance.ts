@@ -3,7 +3,7 @@ import axios from "axios";
 import { authRepository } from "./authRepository";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: "https://e-commerce-backend-2-h21c.onrender.com",
 });
 
 axiosInstance.interceptors.request.use((config) => {

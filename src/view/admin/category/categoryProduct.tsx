@@ -42,6 +42,7 @@ export default function CategoryProduct() {
     const cardBorder = useColorModeValue("gray.200", "gray.700");
     const headingColor = useColorModeValue("gray.900", "white");
     const textColor = useColorModeValue("gray.800", "gray.100");
+    const subTextColor = useColorModeValue("gray.500", "gray.400");
     const stageBg = useColorModeValue("radial-gradient(ellipse at center, #ffffff 0%, #f8fafc 100%)", "radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%)");
     const ratingBg = useColorModeValue("#fffbeb", "rgba(245, 158, 11, 0.12)");
     const ratingBorder = useColorModeValue("#fef3c7", "rgba(245, 158, 11, 0.25)");
@@ -309,14 +310,14 @@ export default function CategoryProduct() {
             {/* Page Header */}
             <Box mb={6}>
                 <HStack spacing={3} mb={1}>
-                    <Heading size="lg" color="gray.800" fontWeight="black" letterSpacing="-0.5px">
+                    <Heading size="lg" color={headingColor} fontWeight="black" letterSpacing="-0.5px">
                         {formattedCategoryTitle}
                     </Heading>
                     <Badge colorScheme="red" fontSize="sm" px={3} py={1} borderRadius="full">
                         {allProducts.length} Products
                     </Badge>
                 </HStack>
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color={subTextColor}>
                     Discover handpicked {formattedCategoryTitle.toLowerCase()} with exclusive deals and verified authentic stock.
                 </Text>
             </Box>
@@ -338,20 +339,20 @@ export default function CategoryProduct() {
                 </Flex>
             ) : filteredProducts.length === 0 ? (
                 <Box
-                    bg="white"
+                    bg={cardBg}
                     borderRadius="2xl"
                     p={{ base: 8, md: 14 }}
                     textAlign="center"
                     boxShadow="sm"
                     border="1px solid"
-                    borderColor="gray.200"
+                    borderColor={cardBorder}
                     maxW="600px"
                     mx="auto"
                 >
-                    <Text fontSize="lg" fontWeight="bold" color="gray.800" mb={2}>
+                    <Text fontSize="lg" fontWeight="bold" color={headingColor} mb={2}>
                         No Products Found
                     </Text>
-                    <Text fontSize="sm" color="gray.500" mb={6}>
+                    <Text fontSize="sm" color={subTextColor} mb={6}>
                         No items match your active filters in {formattedCategoryTitle}. Try adjusting the brand or price range.
                     </Text>
                     <Button colorScheme="red" size="sm" borderRadius="full" onClick={handleResetFilters}>
