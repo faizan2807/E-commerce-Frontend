@@ -1,11 +1,4 @@
-/**
- * Resolves a product image into a displayable browser URL.
- * Handles:
- * - Full URLs: http://localhost:5000/images/foo.png
- * - Relative paths or legacy filesystem paths: /../../publlic/images/foo.png -> http://localhost:5000/images/foo.png
- * - Image arrays or single strings
- * - Missing / broken images with fallback placeholder
- */
+
 export const getProductImageUrl = (imageSrc?: string | string[]): string => {
     if (!imageSrc) {
         return "https://via.placeholder.com/300x300?text=No+Image";
@@ -39,5 +32,8 @@ export const getProductImageUrl = (imageSrc?: string | string[]): string => {
         return "https://via.placeholder.com/300x300?text=No+Image";
     }
 
-    return `http://localhost:5000/images/${filename}`;
+    const backendBaseUrl =
+        import.meta.env.VITE_BACKEND_URL || "https://e-commerce-backend-2-h21c.onrender.com";
+
+    return `${backendBaseUrl}/images/${filename}`;
 };

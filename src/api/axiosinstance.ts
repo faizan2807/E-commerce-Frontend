@@ -3,7 +3,7 @@ import axios from "axios";
 import { authRepository } from "./authRepository";
 
 const axiosInstance = axios.create({
-    baseURL: "https://e-commerce-backend-2-h21c.onrender.com",
+    baseURL: import.meta.env.VITE_API_BASE_URL || "https://e-commerce-backend-2-h21c.onrender.com",
 });
 
 axiosInstance.interceptors.request.use((config) => {
