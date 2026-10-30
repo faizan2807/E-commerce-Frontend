@@ -643,7 +643,7 @@ export default function Cart() {
                                                 items: cartItems,
                                                 paymentRef: paymentRef || undefined,
                                                 userEmail: email || user?.email || (user as any)?.user?.email || undefined,
-                                                customerName: user?.name || (user as any)?.userName || (user as any)?.name || undefined,
+                                                customerName: (user?.firstName ? `${user.firstName} ${user.lastName || ""}`.trim() : "") || (user as any)?.name || undefined,
                                             });
                                         }
 

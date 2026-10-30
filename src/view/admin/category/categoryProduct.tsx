@@ -18,7 +18,7 @@ import {
 import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ProductsTableData, productRepository } from "../../../api/product";
-import { Star, Heart, ArrowLeft, ShoppingBag } from "lucide-react";
+import { Star, Heart, ShoppingBag } from "lucide-react";
 import { getProductImageUrl } from "../../../utils/imageUtils";
 import { useAuth } from "../../../context/AuthContext";
 import { useCenterAlert } from "../../../context/AlertContext";
@@ -41,7 +41,6 @@ export default function CategoryProduct() {
     const cardBg = useColorModeValue("white", "gray.800");
     const cardBorder = useColorModeValue("gray.200", "gray.700");
     const headingColor = useColorModeValue("gray.900", "white");
-    const textColor = useColorModeValue("gray.800", "gray.100");
     const subTextColor = useColorModeValue("gray.500", "gray.400");
     const stageBg = useColorModeValue("radial-gradient(ellipse at center, #ffffff 0%, #f8fafc 100%)", "radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%)");
     const ratingBg = useColorModeValue("#fffbeb", "rgba(245, 158, 11, 0.12)");

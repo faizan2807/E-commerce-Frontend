@@ -64,7 +64,7 @@ export default function FilterNavbar({
     categoryTitle,
 }: FilterNavbarProps) {
     const { isOpen: isMobileOpen, onToggle: onMobileToggle } = useDisclosure({ defaultIsOpen: true });
-    const [brandSearch, setBrandSearch] = useState("");
+    const [brandSearch] = useState("");
 
     // Theme-adaptive colors
     const containerBg = useColorModeValue("white", "gray.800");
