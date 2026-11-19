@@ -42,6 +42,7 @@ import {
 import { paymentApi } from "../../../api/payment";
 import { loadRazorpayScript } from "../../../utils/paymentLoader";
 import { orderRepository } from "../../../api/order";
+import { authRepository, User } from "../../../api/authRepository";
 
 export interface CartItem {
     id: string;
@@ -61,6 +62,17 @@ export default function Cart() {
     const { isOpen: isCheckoutOpen, onOpen: onCheckoutOpen, onClose: onCheckoutClose } = useDisclosure();
     const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod">("razorpay");
     const [isProcessing, setIsProcessing] = useState(false);
+    const [currentUser, setCurrentUser] = useState<User | null>(user || null);
+
+    useEffect(() => {
+        if (userId) {
+            authRepository.getUserById(userId).then((res) => {
+                if (res && res.success && res.data) {
+                    setCurrentUser(res.data);
+                }
+            }).catch((err) => console.warn("Could not fetch user details for cart checkout:", err));
+        }
+    }, [userId]);
 
     const cardBg = useColorModeValue("white", "gray.800");
     const cardBorder = useColorModeValue("gray.100", "gray.700");
@@ -491,7 +503,7 @@ export default function Cart() {
             )}
 
             {/* Payment & Checkout Modal */}
-            <Modal isOpen={isCheckoutOpen} onClose={onCheckoutClose} size="lg" isCentered>
+            <Modal isOpen={isCheckoutOpen} onClose={onCheckoutClose} size="lg" isCentered trapFocus={false}>
                 <ModalOverlay bg="blackAlpha.600" backdropFilter="blur(4px)" />
                 <ModalContent borderRadius="2xl" overflow="hidden" bg={modalBg}>
                     <ModalHeader bg={modalHeaderBg} borderBottom="1px solid" borderColor={modalBorder} py={4}>
@@ -642,8 +654,8 @@ export default function Cart() {
                                                 shipping: shipping === 0 ? "Free Shipping" : "Standard Delivery (₹40)",
                                                 items: cartItems,
                                                 paymentRef: paymentRef || undefined,
-                                                userEmail: email || user?.email || (user as any)?.user?.email || undefined,
-                                                customerName: (user?.firstName ? `${user.firstName} ${user.lastName || ""}`.trim() : "") || (user as any)?.name || undefined,
+                                                userEmail: email || currentUser?.email || user?.email || (user as any)?.user?.email || undefined,
+                                                customerName: (currentUser?.firstName ? `${currentUser.firstName} ${currentUser.lastName || ""}`.trim() : "") || (user?.firstName ? `${user.firstName} ${user.lastName || ""}`.trim() : "") || (user as any)?.name || undefined,
                                             });
                                         }
 
@@ -709,6 +721,15 @@ export default function Cart() {
                                         }
 
                                         if (isScriptLoaded && (window as any).Razorpay && paymentOrder.keyId) {
+                                            const customerFirstName = currentUser?.firstName || user?.firstName || "";
+                                            const customerLastName = currentUser?.lastName || user?.lastName || "";
+                                            const customerFullName = `${customerFirstName} ${customerLastName}`.trim() || "Customer";
+                                            const rawContact = currentUser?.contact || user?.contact || "";
+                                            const cleanContact = rawContact ? String(rawContact).replace(/\D/g, "").slice(-10) : "";
+
+                                            // Close checkout modal so its focus-trap doesn't block inputs in Razorpay's iframe
+                                            onCheckoutClose();
+
                                             const options = {
                                                 key: paymentOrder.keyId,
                                                 amount: paymentOrder.amount || Math.round(total * 100),
@@ -753,14 +774,15 @@ export default function Cart() {
                                                     }
                                                 },
                                                 prefill: {
-                                                    name: `${user?.firstName || ""} ${user?.lastName || ""}`.trim() || "Customer",
-                                                    email: email || user?.email || "",
-                                                    contact: user?.contact ? String(user.contact) : "",
+                                                    name: customerFullName,
+                                                    email: email || currentUser?.email || user?.email || "",
+                                                    contact: cleanContact,
                                                 },
                                                 theme: { color: "#e53e3e" },
                                                 modal: {
                                                     ondismiss: () => {
                                                         setIsProcessing(false);
+                                                        onCheckoutOpen();
                                                     },
                                                 },
                                             };
